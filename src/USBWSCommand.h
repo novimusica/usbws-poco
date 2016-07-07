@@ -24,7 +24,7 @@
 #include "Poco/Util/Option.h"
 #include "Poco/Util/OptionSet.h"
 #include "Poco/URI.h"
-#include <usbip_api.h>
+#include <linux/usbip_api.h>
 
 namespace Usbip { namespace WebSock { namespace Poco {
 

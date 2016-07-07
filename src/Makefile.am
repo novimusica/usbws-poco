@@ -1,23 +1,34 @@
-AM_CPPFLAGS = -I$(top_srcdir)/../libsrc -I$(top_srcdir)/../src
+AM_LDFLAGS = -L@libdir@ \
+	     -lPocoFoundation -lPocoUtil -lPocoNet -lPocoNetSSL -lstdc++
 
-bin_PROGRAMS = usbws usbwsa usbwsd
+if !WITH_LIBUSB
+AM_CPPFLAGS =
+LDFLAGS_CMD = -lusbip -lusbipc
+LDFLAGS_DAEMON_DEV = -lusbip -lusbipd
+LDFLAGS_DAEMON_APP = -lusbip -lusbipa
+
+sbin_PROGRAMS = usbws usbwsd usbwsa
+else
+AM_CPPFLAGS = -DUSBIP_WITH_LIBUSB
+LDFLAGS_CMD = -lusbip_libusb -lusbip_stub -lusbipc_libusb
+LDFLAGS_DAEMON_DEV = -lusbip_libusb -lusbip_stub -lusbipd_libusb
+LDFLAGS_DAEMON_APP =
+
+sbin_PROGRAMS = usbws usbwsd
+endif
 
 usbws_SOURCES = USBWSCommand.cpp USBWSWebSocket.cpp
 usbws_CPPFLAGS = $(AM_CPPFLAGS)
-usbws_LDADD = $(top_builddir)/../libsrc/libusbiplib.la \
-		$(top_builddir)/../src/libusbip.la
-usbws_LDFLAGS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoNetSSL -lstdc++
-
-usbwsa_SOURCES = USBWSDaemon.cpp USBWSWebSocket.cpp \
-		USBWSRequestHandlerFactory.cpp USBWSRequestHandler.cpp
-usbwsa_CPPFLAGS = $(AM_CPPFLAGS)
-usbwsa_LDADD = $(top_builddir)/../libsrc/libusbiplib.la \
-		$(top_builddir)/../src/libusbipa.la
-usbwsa_LDFLAGS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoNetSSL -lstdc++
+usbws_LDFLAGS = $(AM_LDFLAGS) $(LDFLAGS_CMD)
 
 usbwsd_SOURCES = USBWSDaemon.cpp USBWSWebSocket.cpp \
 		USBWSRequestHandlerFactory.cpp USBWSRequestHandler.cpp
 usbwsd_CPPFLAGS = $(AM_CPPFLAGS)
-usbwsd_LDADD = $(top_builddir)/../libsrc/libusbiplib.la \
-		$(top_builddir)/../src/libusbipd.la
-usbwsd_LDFLAGS = -lPocoFoundation -lPocoUtil -lPocoNet -lPocoNetSSL -lstdc++
+usbwsd_LDFLAGS = $(AM_LDFLAGS) $(LDFLAGS_DAEMON_DEV)
+
+if !WITH_LIBUSB
+usbwsa_SOURCES = USBWSDaemon.cpp USBWSWebSocket.cpp \
+		USBWSRequestHandlerFactory.cpp USBWSRequestHandler.cpp
+usbwsa_CPPFLAGS = $(AM_CPPFLAGS)
+usbwsa_LDFLAGS = $(AM_LDFLAGS) $(LDFLAGS_DAEMON_APP)
+endif

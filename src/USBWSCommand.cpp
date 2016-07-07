@@ -311,7 +311,7 @@ int USBWSCommand::main(const std::vector<std::string>& args)
 			return Application::EXIT_SOFTWARE;
 #endif
 	} else if (cmd == "list") {
-		if (usbip_list_devices(fParsable))
+		if (usbip_list_local_devices(fParsable))
 			return Application::EXIT_SOFTWARE;
 	} else if (cmd == "bind") {
 		if (usbip_bind_device(fBusID.c_str()))

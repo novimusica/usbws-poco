@@ -23,7 +23,7 @@
 #include "Poco/Net/ServerSocket.h"
 #include "Poco/Net/SecureServerSocket.h"
 #include "Poco/Util/HelpFormatter.h"
-#include <usbip_api.h>
+#include <linux/usbip_api.h>
 #include <iostream>
 
 using namespace ::Poco;
@@ -187,7 +187,7 @@ int USBWSDaemon::main(const std::vector<std::string>& args)
 			return Application::EXIT_USAGE;
 		}
 	}
-	if (usbip_driver_open()) {
+	if (usbip_open_driver()) {
 		logger().error("Fail to open driver.");
 		return Application::EXIT_IOERR;
 	}
@@ -206,7 +206,7 @@ int USBWSDaemon::main(const std::vector<std::string>& args)
 	usbip_break_all_connections();
 	svr.stop();
 	closeSocket();
-	usbip_driver_close();
+	usbip_close_driver();
 	return Application::EXIT_OK;
 }
 
