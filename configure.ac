@@ -34,11 +34,14 @@ AC_TYPE_SSIZE_T
 # Checks for library functions.
 AC_CHECK_FUNCS([fcntl.h unistd.h])
 
+# Using libusb
+AC_MSG_CHECKING([whether to use libusb])
 AC_ARG_WITH([libusb],
-	    [  --with-libusb           with libusb @<:@default=no@:>@],
-	    [with_libusb=true],
-	    [with_libusb=false])
-AM_CONDITIONAL([WITH_LIBUSB], [test x$with_libusb = xtrue])
+	    [  --with-libusb           with libusb],
+	    [with_libusb=yes],
+	    [with_libusb=no])
+AC_MSG_RESULT([$with_libusb])
+AM_CONDITIONAL([WITH_LIBUSB], [test x$with_libusb = xyes])
 
 AC_CHECK_HEADER(Poco/Logger.h,,
 	AC_MSG_ERROR([Missing Poco/Logger.h]))
