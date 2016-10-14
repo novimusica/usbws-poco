@@ -19,7 +19,7 @@
 #include "USBWSUtil.h"
 #include "Poco/Net/Socket.h"
 #include "Poco/Net/NetException.h"
-#include <linux/usbip_nppi.h>
+#include <linux/usbip_api.h>
 
 using namespace ::Poco;
 using namespace ::Poco::Net;

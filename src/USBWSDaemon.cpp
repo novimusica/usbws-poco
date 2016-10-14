@@ -23,7 +23,7 @@
 #include "Poco/Net/ServerSocket.h"
 #include "Poco/Net/SecureServerSocket.h"
 #include "Poco/Util/HelpFormatter.h"
-#include <linux/usbip_nppi.h>
+#include <linux/usbip_api.h>
 #include <iostream>
 
 using namespace ::Poco;
