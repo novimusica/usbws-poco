@@ -274,8 +274,7 @@ int USBWSCommand::main(const std::vector<std::string>& args)
 			getProxyCredentials(url);
 			logger().debug(
 				"Using proxy host:%s port:%d user:%s pwd:%s",
-				fProxyHost.c_str(), fProxyPort,
-				fProxyUser.c_str(), fProxyPwd.c_str());
+				fProxyHost, fProxyPort, fProxyUser, fProxyPwd);
 		} catch (SyntaxException& e) {
 			std::cerr << "Proxy syntax error." << std::endl;
 			return Application::EXIT_USAGE;
@@ -394,7 +393,7 @@ struct usbip_sock *USBWSCommand::connect(const char *host, const char *port,
 		return sock;
 	} catch (WebSocketException& e) {
 		app->logger().log(e);
-	} catch (::Poco::IOException& e) {
+	} catch (::Poco::Exception& e) {
 		app->logger().log(e);
 	}
 	free(sock);
@@ -409,7 +408,7 @@ void USBWSCommand::close(struct usbip_sock  *sock)
 			USBWSCommand *app = (USBWSCommand *)ws->getApp();
 			try {
 				app->closeSession();
-			} catch (::Poco::IOException& e) {
+			} catch (::Poco::Exception& e) {
 				app->logger().log(e);
 			} 
 			delete ws;

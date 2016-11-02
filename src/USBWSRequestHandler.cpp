@@ -61,7 +61,7 @@ void USBWSRequestHandler::handleRequest(
 			port.c_str());
 		fLogger.information("Exited from usbip_recv_pdu().");
 	} catch (WebSocketException& e) {
-		fLogger.information("WebSocketexception.");
+		fLogger.information("WebSocketException.");
 		fLogger.log(e);
 		switch(e.code()) {
 		case WebSocket::WS_ERR_HANDSHAKE_UNSUPPORTED_VERSION:
@@ -81,6 +81,9 @@ void USBWSRequestHandler::handleRequest(
 		default:
 			break;
 		}
+	} catch (::Poco::Exception& e) {
+		fLogger.information("OtherException.");
+		fLogger.log(e);
 	}
 	fLogger.information("WebSocket connection terminated.");
 }

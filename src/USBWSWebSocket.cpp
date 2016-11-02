@@ -94,6 +94,10 @@ int USBWSWebSocket::sendProc(void *buf, int len)
 		fLogger.log(e);
 		ret = -1;
 		errno = EIO;
+	} catch (::Poco::Exception& e) {
+		fLogger.log(e);
+		ret = -1;
+		errno = EINVAL;
 	}
 	fSendLock.unlock();
 	return ret;
@@ -144,6 +148,9 @@ int USBWSWebSocket::recvProc(void *buf, int len, int all)
 	} catch (::Poco::IOException& e) {
 		fLogger.log(e);
 		errno = EIO;
+	} catch (::Poco::Exception& e) {
+		fLogger.log(e);
+		errno = EINVAL;
 	}
 	return -1;
 }

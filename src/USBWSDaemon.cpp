@@ -200,7 +200,7 @@ int USBWSDaemon::main(const std::vector<std::string>& args)
 		*fSocket, new HTTPServerParams());
 	svr.start();
 	logger().debug("Waiting at %d:%s %s",
-		fTcpPort, fPath.c_str(), fSSL? "with SSL" : "");
+		fTcpPort, fPath, std::string(fSSL? "with SSL" : ""));
 	waitForTerminationRequest();
 	logger().information("Stopping server.");
 	usbip_break_all_connections();
