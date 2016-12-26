@@ -55,11 +55,11 @@ void USBWSRequestHandler::handleRequest(
 		SocketAddress addr = ws.address();
 		std::string port = USBWSUtil::i2s(addr.port());
 
-		fLogger.information("Entering to usbip_recv_pdu().");
-		usbip_recv_pdu(&sock,
+		fLogger.information("Entering to usbipd_recv_pdu().");
+		usbipd_recv_pdu(&sock,
 			addr.host().toString().c_str(),
 			port.c_str());
-		fLogger.information("Exited from usbip_recv_pdu().");
+		fLogger.information("Exited from usbipd_recv_pdu().");
 	} catch (WebSocketException& e) {
 		fLogger.information("WebSocketException.");
 		fLogger.log(e);

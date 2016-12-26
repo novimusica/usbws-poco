@@ -187,7 +187,7 @@ int USBWSDaemon::main(const std::vector<std::string>& args)
 			return Application::EXIT_USAGE;
 		}
 	}
-	if (usbip_open_driver()) {
+	if (usbipd_driver_open()) {
 		logger().error("Fail to open driver.");
 		return Application::EXIT_IOERR;
 	}
@@ -206,7 +206,7 @@ int USBWSDaemon::main(const std::vector<std::string>& args)
 	usbip_break_all_connections();
 	svr.stop();
 	closeSocket();
-	usbip_close_driver();
+	usbipd_driver_close();
 	return Application::EXIT_OK;
 }
 
